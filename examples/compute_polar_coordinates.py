@@ -115,6 +115,9 @@ fig, ax = plot_trajectory(
 )
 # Adjust title
 ax.set_title("Head trajectory (individual_0)")
+ax.set_xlabel("x (pixels)")
+ax.set_ylabel("y (pixels)")
+ax.collections[0].colorbar.set_label("Time (frames)")
 fig.show()
 
 # %%
@@ -251,16 +254,18 @@ rho_data = head_vector_polar.sel(individuals=mouse_name, space_pol="rho")
 rho_data.plot.hist(bins=50, ax=ax, edgecolor="lightgray", linewidth=0.5)
 
 # add mean
+rho_mean = np.nanmean(rho_data)
 ax.axvline(
-    x=rho_data.mean().values,
+    x=rho_mean,
     c="b",
     linestyle="--",
 )
 
 
 # add median
+rho_median = np.nanmedian(rho_data)
 ax.axvline(
-    x=rho_data.median().values,
+    x=rho_median,
     c="r",
     linestyle="-",
 )
@@ -268,8 +273,8 @@ ax.axvline(
 # add legend
 ax.legend(
     [
-        f"mean = {np.nanmean(rho_data):.2f} pixels",
-        f"median = {np.nanmedian(rho_data):.2f} pixels",
+        f"mean = {rho_mean:.2f} pixels",
+        f"median = {rho_median:.2f} pixels",
     ],
     loc="best",
 )
