@@ -9,7 +9,9 @@ from movement.napari.convert import movement_ds_to_napari_tracks
 
 
 @pytest.fixture
-def confidence_with_some_nan(valid_poses_dataset_uniform_linear_motion):
+def valid_poses_confidence_some_nans(
+    valid_poses_dataset_uniform_linear_motion,
+):
     """Return a valid poses dataset with some NaNs in confidence values."""
     ds = valid_poses_dataset_uniform_linear_motion
     ds["confidence"].loc[{"individuals": "id_1", "time": [3, 7, 8]}] = np.nan
@@ -17,7 +19,7 @@ def confidence_with_some_nan(valid_poses_dataset_uniform_linear_motion):
 
 
 @pytest.fixture
-def confidence_with_all_nan(valid_poses_dataset_uniform_linear_motion):
+def valid_poses_confidence_all_nan(valid_poses_dataset_uniform_linear_motion):
     """Return a valid poses dataset with all NaNs in confidence values."""
     ds = valid_poses_dataset_uniform_linear_motion
     ds["confidence"].data = np.full_like(ds["confidence"].data, np.nan)
@@ -29,18 +31,19 @@ def confidence_with_all_nan(valid_poses_dataset_uniform_linear_motion):
     [
         "valid_poses_dataset_uniform_linear_motion",
         "valid_poses_dataset_uniform_linear_motion_with_nans",
-        "confidence_with_some_nan",
-        "confidence_with_all_nan",
+        "valid_poses_confidence_some_nans",
+        "valid_poses_confidence_all_nan",
+        "valid_bboxes_dataset",
     ],
 )
-def test_valid_poses_to_napari_tracks(ds_name, request):
-    """Test that the conversion from movement poses dataset to napari
+def test_valid_dataset_to_napari_tracks(ds_name, request):
+    """Test that the conversion from movement dataset to napari
     tracks returns the expected data and properties.
     """
     ds = request.getfixturevalue(ds_name)
     n_frames = ds.sizes["time"]
     n_individuals = ds.sizes["individuals"]
-    n_keypoints = ds.sizes["keypoints"]
+    n_keypoints = ds.sizes.get("keypoints", 1)
     n_tracks = n_individuals * n_keypoints  # total tracked points
 
     data, props = movement_ds_to_napari_tracks(ds)
