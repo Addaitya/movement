@@ -4,7 +4,7 @@
 You can visualise `movement` motion tracks in [napari](napari:) using our
 plugin, which extends `napari`'s core functionality and provides a widget
 that can be docked in the `napari` window. Currently, you can use it to
-visualise 2D [poses datasets](target-poses-and-bboxes-dataset)
+visualise 2D [poses and bounding boxes datasets](target-poses-and-bboxes-dataset)
 as points overlaid on video frames.
 
 :::{warning}
@@ -121,10 +121,10 @@ In any case, the image will be loaded as a single 2D frame without a slider.
 
 ## Load the poses dataset
 
-Now you are ready to load some pose tracks over your chosen background layer.
+Now you are ready to load some motion tracks over your chosen background layer.
 
 On the right-hand side of the window you should see
-an expanded `Load poses` menu. To load some pose data in napari:
+an expanded `Load data` menu. To load some `movement` data in napari:
 1. Select the `source software` from the dropdown menu.
 2. Set the `fps`  (frames per second) of the video the pose data refers to. Note this will only affect the units of the time variable shown when hovering over a keypoint. If the fps is not known, you can set it to 1, which will effectively make the time variable equal to the frame number.
 3. Select the file containing the predicted poses. The path can be directly pasted or you can use the file browser button.
@@ -146,9 +146,11 @@ You will see a view similar to the one below:
 
 ![napari widget with poses dataset loaded](../_static/napari_plugin_with_poses_as_points.png)
 
-The predicted keypoints are represented as points, colour-coded by
+The predicted keypoints or bounding boxes centroids are represented as points.
+In poses datasets, the points are colour-coded by
 keypoint ID for single-individual datasets, or by individual ID for
-multi-individual datasets. These IDs can be also displayed as text
+multi-individual datasets. In bounding boxes datasets, since there are no keypoints,
+the points are colour-coded by individual ID. The value for each point's colour can be displayed as text
 next to the points by enabling the `display text` option from the
 layer controls panel.
 
@@ -167,7 +169,4 @@ in sync.
 Though the display style of the points layer is currently fixed, we are
 working on adding more customisation options in future releases, such as
 enabling you to change the point size, colour, or shape.
-
-We are also working on enabling the visualisation of
-[bounding boxes datasets](target-poses-and-bboxes-dataset) in the plugin.
 :::
