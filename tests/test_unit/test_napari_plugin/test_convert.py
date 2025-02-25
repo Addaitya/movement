@@ -9,7 +9,7 @@ from movement.napari.convert import movement_ds_to_napari_tracks
 
 
 @pytest.fixture
-def valid_poses_confidence_some_nans(
+def valid_poses_confidence_some_nan(
     valid_poses_dataset,
 ):
     """Return a valid poses dataset with some NaNs in confidence values."""
@@ -31,7 +31,7 @@ def valid_poses_confidence_all_nan(valid_poses_dataset):
     [
         "valid_poses_dataset",
         "valid_poses_dataset_with_nan",
-        "valid_poses_confidence_some_nans",
+        "valid_poses_confidence_some_nan",
         "valid_poses_confidence_all_nan",
         "valid_bboxes_dataset",
     ],
